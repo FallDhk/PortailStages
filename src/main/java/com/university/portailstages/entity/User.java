@@ -1,5 +1,6 @@
 package com.university.portailstages.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -28,6 +29,10 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(mappedBy = "user")
+    @JsonBackReference
+    private ProfilEtudiant profilEtudiant;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

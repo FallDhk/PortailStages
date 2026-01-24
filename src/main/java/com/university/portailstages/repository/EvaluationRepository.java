@@ -10,7 +10,7 @@ import java.util.List;
 public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
     List<Evaluation> findByConventionId(Long conventionId);
 
-    List<Evaluation> findByEvaluateurEmail(String email);
+    //List<Evaluation> findByEvaluateurEmail(String email);
 
     @Query("select avg(e.note) from Evaluation e")
     Double moyenne();

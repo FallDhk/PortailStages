@@ -7,10 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OffreStageRepository extends JpaRepository<OffreStage, Long> {
 
-    //Pagination entreprise
     Page<OffreStage> findByEntrepriseId(Long entrepriseId, Pageable pageable);
 
-    //Compteur
     long countByEntrepriseEmail(String email);
 
 }

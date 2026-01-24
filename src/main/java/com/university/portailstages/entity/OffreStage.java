@@ -23,7 +23,17 @@ public class OffreStage {
 
     private LocalDate dateFin;
 
+    private String filiereCible;
+    private String niveauCible;
+
+    @Column(length = 2000)
+    private String missions;
+
+    @Column(length = 2000)
+    private String competences;
+
     @ManyToOne
     @JoinColumn(name = "entreprise_id")
-    private User entreprise;  // L’entreprise qui publie
+    private User entreprise;
+
 }

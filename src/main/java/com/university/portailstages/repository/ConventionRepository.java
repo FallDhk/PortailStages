@@ -9,6 +9,10 @@ import java.util.List;
 public interface ConventionRepository extends JpaRepository<Convention, Long> {
     List<Convention> findByEtudiantId(Long id);
     List<Convention> findByEntrepriseId(Long id);
+
+    List<Convention> findByEncadrantPedagogiqueIsNull();
+    //List<Convention> findByEncadrantPedagogiqueId(Long id);
+
     boolean existsByCandidatureId(Long id);
 
     long countByStatut(StatutConvention statut);
@@ -18,5 +22,6 @@ public interface ConventionRepository extends JpaRepository<Convention, Long> {
     long countByEtudiantEmailAndStatut(String email, StatutConvention statut);
 
     long countByEntrepriseEmailAndStatut(String email, StatutConvention statut);
+
 
 }

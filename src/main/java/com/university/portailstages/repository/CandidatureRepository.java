@@ -9,11 +9,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CandidatureRepository extends JpaRepository<Candidature, Long> {
+
     List<Candidature> findByEtudiantId(Long id);
 
     List<Candidature> findByOffreId(Long id);
 
-    long countByEtudiantEmail(String email);
+    long countByEtudiantUserEmail(String email);
 
     long countByOffreEntrepriseEmail(String email);
 
@@ -26,7 +27,6 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Long> 
     """)
     long countByEntreprise(@Param("email") String email);
 
-
     @Query(""" 
         select count(c)
         from Candidature c
@@ -35,6 +35,9 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Long> 
     """)
     long countAcceptees(@Param("email") String email);
 
-    long countByEtudiantEmailAndStatut(String email, StatutCandidature statut);
+    long countByEtudiantUserEmailAndStatut(String email, StatutCandidature statut);
+
+    boolean existsByEtudiantIdAndOffreId(Long etudiantId, Long offreId);
 }
+
 

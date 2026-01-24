@@ -32,10 +32,28 @@ public class Convention {
     private LocalDate dateDebut;
     private LocalDate dateFin;
 
+    // --- Académique ---
+    private String filiere;
+    private String niveau;
+    //private String anneeUniversitaire;
+
+    @Column(length = 2000)
+    private String missions;
+
+    @Column(length = 2000)
+    private String competences;
+
+    // --- Encadrement ---
+    @ManyToOne
+    private User encadrantPedagogique;
+
+    private String tuteurEntreprise;
+
     @Enumerated(EnumType.STRING)
     private StatutConvention statut;
 
     private LocalDateTime signeEtudiantAt;
     private LocalDateTime signeEntrepriseAt;
     private LocalDateTime valideAdminAt;
+
 }

@@ -20,9 +20,9 @@ public class EtudiantReportService {
 
         EtudiantReport dto = new EtudiantReport();
 
-        dto.setTotalCandidatures(candidatureRepo.countByEtudiantEmail(email));
+        dto.setTotalCandidatures(candidatureRepo.countByEtudiantUserEmail(email));
         dto.setCandidaturesAcceptees(
-                candidatureRepo.countByEtudiantEmailAndStatut(email, StatutCandidature.ACCEPTEE)
+                candidatureRepo.countByEtudiantUserEmailAndStatut(email, StatutCandidature.ACCEPTEE)
         );
 
         dto.setTotalConventions(conventionRepo.countByEtudiantEmail(email));

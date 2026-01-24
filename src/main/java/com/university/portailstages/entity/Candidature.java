@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-//@Getter @Setter
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,7 +17,7 @@ public class Candidature {
     private Long id;
 
     @ManyToOne
-    private User etudiant;
+    private ProfilEtudiant etudiant;
 
     @ManyToOne
     private OffreStage offre;

@@ -42,7 +42,7 @@ public class StatsController {
     public Map<String,Object> etudiantStats(org.springframework.security.core.Authentication auth) {
         String email = auth.getName();
         Map<String,Object> map = new HashMap<>();
-        map.put("mesCandidatures", candidatureRepo.countByEtudiantEmail(email));
+        map.put("mesCandidatures", candidatureRepo.countByEtudiantUserEmail(email));
         map.put("mesConventions", conventionRepo.countByEtudiantEmail(email));
         map.put("conventionsSignee", conventionRepo.countByEtudiantEmailAndStatut(email, StatutConvention.SIGNEE_ETUDIANT));
         map.put("conventionsValidee", conventionRepo.countByEtudiantEmailAndStatut(email, StatutConvention.VALIDEE_ADMIN));

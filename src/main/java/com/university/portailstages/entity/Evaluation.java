@@ -21,7 +21,7 @@ public class Evaluation {
     private Convention convention;
 
     @ManyToOne
-    private User evaluateur; // Étudiant ou Entreprise
+    private User evaluateur; // Entreprise
 
     private int note; // 0-20
 

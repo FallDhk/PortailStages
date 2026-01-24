@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/conventions")
@@ -78,6 +79,29 @@ public class ConventionController {
                 .contentLength(file.length())
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{conventionId}/affecter/{encadrantId}")
+    public Convention affecterEncadrant(
+            @PathVariable Long conventionId,
+            @PathVariable Long encadrantId) {
+        return service.affecterEncadrant(conventionId, encadrantId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/sans-encadrant")
+    public List<Convention> conventionsSansEncadrant() {
+        return service.conventionsSansEncadrant();
+    }
+
+
+    @PutMapping("/{id}/tuteur")
+    @PreAuthorize("hasRole('ENTREPRISE')")
+    public Convention definirTuteur(@PathVariable Long id,
+                                    @RequestBody Map<String, String> body,
+                                    Authentication auth) {
+        return service.definirTuteurEntreprise(id, body.get("tuteur"), auth.getName());
     }
 
 
