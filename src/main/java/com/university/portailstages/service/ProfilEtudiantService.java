@@ -24,14 +24,11 @@ public class ProfilEtudiantService {
         User user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-        // Vérifier si un profil existe déjà
-        if (user.getProfilEtudiant() != null) {
-            throw new RuntimeException("Profil déjà créé");
-        }
 
         ProfilEtudiant profil = repo.findByUserEmail(email)
                 .orElse(new ProfilEtudiant());
         profil.setUser(user);
+
         profil.setPrenom(profilDto.getPrenom());
         profil.setTelephone(profilDto.getTelephone());
         profil.setAdresse(profilDto.getAdresse());

@@ -61,5 +61,12 @@ public class OffreStageController {
     public void delete(@PathVariable Long id) {
         service.delete(id);
     }
+
+    // get une offre (ENTREPRISE seulement)
+    @GetMapping("/{id}")
+    //@PreAuthorize("hasRole('ENTREPRISE')")
+    public OffreStage getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
 }
 

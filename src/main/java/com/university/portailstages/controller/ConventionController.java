@@ -1,6 +1,7 @@
 package com.university.portailstages.controller;
 
 import com.university.portailstages.entity.Convention;
+import com.university.portailstages.entity.User;
 import com.university.portailstages.service.ConventionService;
 import com.university.portailstages.service.PdfConventionService;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,12 @@ public class ConventionController {
         return service.mesConventionsEntreprise(auth.getName());
     }
 
+    @GetMapping("/entreprise/stagere")
+    @PreAuthorize("hasRole('ENTREPRISE')")
+    public List<Convention> mesStagereEntreprise(Authentication auth) {
+        return service.mesStagereEntreprise(auth.getName());
+    }
+
     @PostMapping("/{id}/signer-etudiant")
     @PreAuthorize("hasRole('ETUDIANT')")
     public Convention signerEtudiant(@PathVariable Long id,
@@ -57,10 +64,10 @@ public class ConventionController {
         return service.signerEntreprise(id, auth.getName());
     }
 
-    @PostMapping("/{id}/valider-admin")
+    @PostMapping("/{id}/valider-admin/{encadrantId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Convention validerAdmin(@PathVariable Long id) {
-        return service.valider(id);
+    public Convention validerAdmin(@PathVariable Long id,@PathVariable Long encadrantId) {
+        return service.valider(id,encadrantId);
     }
 
 
@@ -94,7 +101,17 @@ public class ConventionController {
     public List<Convention> conventionsSansEncadrant() {
         return service.conventionsSansEncadrant();
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin")
+    public List<Convention> conventionsAdmin() {
+        return service.conventionsAdmin();
+    }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getEnseignants")
+    public List<User> getEnseignants() {
+        return service.getEnsegnant();
+    }
 
     @PutMapping("/{id}/tuteur")
     @PreAuthorize("hasRole('ENTREPRISE')")
@@ -102,6 +119,35 @@ public class ConventionController {
                                     @RequestBody Map<String, String> body,
                                     Authentication auth) {
         return service.definirTuteurEntreprise(id, body.get("tuteur"), auth.getName());
+    }
+
+    @GetMapping("/mes-stages")
+    @PreAuthorize("hasRole('ETUDIANT')")
+    public List<Convention> mesStages(Authentication auth) {
+        Long userId = ((User) auth.getPrincipal()).getId();
+        return service.getStagesValides(userId);
+    }
+
+    @GetMapping("/encadrant")
+    @PreAuthorize("hasRole('ENSEIGNANT')")
+    public List<Convention> getByEncadrant(Authentication auth) {
+
+        User encadrant = (User) auth.getPrincipal();
+
+        return service.getByEncadrant(encadrant.getId());
+    }
+
+    @GetMapping("/admin/")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Convention> findByStatut(Authentication auth) {
+
+        return service.findByStatut();
+    }
+
+    @GetMapping("/ready-soutenance")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Convention> ready() {
+        return service.getReadyForSoutenance();
     }
 
 

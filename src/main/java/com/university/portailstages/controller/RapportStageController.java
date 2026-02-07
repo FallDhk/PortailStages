@@ -1,6 +1,7 @@
 package com.university.portailstages.controller;
 
 import com.university.portailstages.entity.RapportStage;
+import com.university.portailstages.repository.RapportStageRepository;
 import com.university.portailstages.service.RapportStageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class RapportStageController {
     private final RapportStageService service;
+    private final RapportStageRepository repo;
     @PostMapping("/{conventionId}/deposer")
     @PreAuthorize("hasRole('ETUDIANT')")
     public RapportStage deposer(@PathVariable Long conventionId,
@@ -25,6 +27,12 @@ public class RapportStageController {
     public RapportStage valider(@PathVariable Long id,
                                 Authentication auth) {
         return service.valider(id, auth.getName());
+    }
+
+    @GetMapping("/convention/{id}")
+    //@PreAuthorize("hasRole('ETUDIANT','ENSEIGNANT')")
+    public RapportStage getByConvention(@PathVariable Long id) {
+        return repo.findByConventionId(id).orElse(null);
     }
 
 }

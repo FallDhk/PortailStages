@@ -37,4 +37,9 @@ public class SuiviStageController {
     public List<SuiviStage> list(@PathVariable Long id) {
         return service.lister(id);
     }
+
+    @GetMapping("/progress/convention/{id}")
+    public Integer getProgress(@PathVariable Long id) {
+        return service.getConventionProgress(id);
+    }
 }

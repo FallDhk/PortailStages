@@ -61,5 +61,9 @@ public class SoutenanceService {
         return repo.save(s);
     }
 
+    public Soutenance getByConvention(Long id) {
+        return repo.findByConventionId(id).orElse(null);
+    }
+
 
 }

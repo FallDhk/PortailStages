@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class CandidatureService {
     private final OffreStageRepository offreRepo;
     private final ProfilEtudiantRepository profilRepo;
     private final ConventionRepository conventionRepository;
+    private final  UserRepository userRepo;
 
     public Candidature postuler(Long offreId, String email) {
 
@@ -87,5 +89,10 @@ public class CandidatureService {
         conv.setNiveau(c.getOffre().getNiveauCible());
 
         conventionRepository.save(conv);
+    }
+
+    public Optional<Candidature> getMyCandidature(Long offreId, String email) {
+        User etudiant = userRepo.findByEmail(email).orElseThrow();
+        return repo.findByOffreIdAndEtudiantId(offreId, etudiant.getId());
     }
 }

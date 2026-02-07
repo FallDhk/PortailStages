@@ -62,6 +62,13 @@ public class OffreStageService {
         existing.setTitre(offre.getTitre());
         existing.setDescription(offre.getDescription());
         existing.setLieu(offre.getLieu());
+        existing.setCompetences(offre.getCompetences());
+
+        existing.setDateDebut(offre.getDateDebut());
+        existing.setDateFin(offre.getDateFin());
+        existing.setFiliereCible(offre.getFiliereCible());
+        existing.setMissions(offre.getMissions());
+        existing.setNiveauCible(offre.getNiveauCible());
 
         return repository.save(existing);
     }

@@ -27,13 +27,13 @@ public class JwtService {
                 .claim("role", user.getRole().name())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 86400000))
-                .signWith(getSignKey(), Jwts.SIG.HS256)   // ✅ FORCER HS256
+                .signWith(getSignKey(), Jwts.SIG.HS256)   //FORCER HS256
                 .compact();
     }
 
     public String extractUsername(String token) {
         return Jwts.parser()
-                .verifyWith(getSignKey())               // ✅ même clé + algo
+                .verifyWith(getSignKey())               // même clé + algo
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()

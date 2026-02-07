@@ -61,10 +61,10 @@ public class SuiviStageService {
 
         int somme = repo.sumProgression(s.getConvention().getId());
 
-        if (somme + s.getProgression() > 100)
-            throw new RuntimeException(
-                    "Progression invalide : " + somme + " + " + s.getProgression() + " > 100%"
-            );
+//        if (somme + s.getProgression() > 100)
+//            throw new RuntimeException(
+//                    "Progression invalide : " + somme + " + " + s.getProgression() + " > 100%"
+//            );
 
         s.setCommentaireEncadrant((String) body.get("commentaire"));
 //        s.setProgression(prog);
@@ -77,5 +77,9 @@ public class SuiviStageService {
 
     public List<SuiviStage> lister(Long conventionId) {
         return repo.findByConventionId(conventionId);
+    }
+
+    public Integer getConventionProgress(Long conventionId) {
+        return repo.sumProgression(conventionId);
     }
 }

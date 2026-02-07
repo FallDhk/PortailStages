@@ -33,6 +33,9 @@ public class SoutenanceController {
         return service.valider(id);
     }
 
-
+    @GetMapping("/by-convention/{id}")
+    public Soutenance getByConvention(@PathVariable Long id) {
+        return service.getByConvention(id);
+    }
 
 }

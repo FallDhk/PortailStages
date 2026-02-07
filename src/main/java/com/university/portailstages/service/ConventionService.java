@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,6 @@ public class ConventionService {
     private final ConventionRepository repo;
     private final CandidatureRepository candRepo;
     private final UserRepository userRepo;
-
 
     public Convention creerConvention(Long candidatureId) {
 
@@ -52,6 +52,18 @@ public class ConventionService {
         return repo.findByEntrepriseId(u.getId());
     }
 
+    public List<Convention> mesStagereEntreprise(String email) {
+        User u = userRepo.findByEmail(email).orElseThrow();
+        return repo.findByEntrepriseIdAndValideAdminAtIsNotNull(u.getId());
+    }
+
+    public List<User> getEnsegnant(){
+        return userRepo.findByRole(Role.ENSEIGNANT);
+    }
+    public List<Convention> mesStage(String email) {
+        User u = userRepo.findByEmail(email).orElseThrow();
+        return repo.findByEntrepriseId(u.getId());
+    }
     @Transactional
     public Convention signerEtudiant(Long id, String emailUser) {
 
@@ -97,7 +109,7 @@ public class ConventionService {
     }
 
     @Transactional
-    public Convention valider(Long id) {
+    public Convention valider(Long id, Long encadrantId) {
 
         Convention c = getById(id);
 
@@ -108,6 +120,13 @@ public class ConventionService {
             throw new ConventionException("Convention pas prête pour validation admin");
         }
 
+        User encadrant = userRepo.findById(encadrantId)
+                .orElseThrow(() -> new RuntimeException("Encadrant introuvable"));
+
+        if (encadrant.getRole() != Role.ENSEIGNANT) {
+            throw new RuntimeException("L'utilisateur n'est pas un encadrant");
+        }
+        c.setEncadrantPedagogique(encadrant);
         c.setValideAdminAt(LocalDateTime.now());
         c.setStatut(StatutConvention.VALIDEE_ADMIN);
 
@@ -173,6 +192,25 @@ public class ConventionService {
 
         c.setTuteurEntreprise(tuteur);
         return repo.save(c);
+    }
+
+    public List<Convention> conventionsAdmin() {
+        return repo.findAll();
+    }
+
+    public List<Convention> getStagesValides(Long etudiantId) {
+        return repo.findByEtudiantIdAndValideAdminAtIsNotNull(etudiantId);
+    }
+    public List<Convention> getByEncadrant(Long encadrantId) {
+        return repo.findByEncadrantPedagogiqueId(encadrantId);
+    }
+
+    public List<Convention> findByStatut() {
+        return repo.findByStatut(StatutConvention.VALIDEE_ADMIN);
+    }
+
+    public List<Convention> getReadyForSoutenance() {
+        return repo.findReadyForSoutenance();
     }
 
 }
