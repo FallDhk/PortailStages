@@ -150,5 +150,11 @@ public class ConventionController {
         return service.getReadyForSoutenance();
     }
 
+    @GetMapping("/{id}")
+    //@PreAuthorize("hasRole('ADMIN')")
+    public Convention getConvation(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
 
 }
